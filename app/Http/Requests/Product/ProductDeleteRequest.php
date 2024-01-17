@@ -5,7 +5,7 @@ namespace App\Http\Requests\Product;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProductIndexRequest extends FormRequest
+class ProductDeleteRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -16,6 +16,11 @@ class ProductIndexRequest extends FormRequest
     {
         $user = Auth::user();
 
-         return $user->id;
+        return $user->id;
+    }
+
+    public function getId(): int
+    {
+        return $this->route('id');
     }
 }

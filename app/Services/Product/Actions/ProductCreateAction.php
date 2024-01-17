@@ -8,13 +8,15 @@ use App\Repositories\Product\Write\ProductWriteRepositoryInterface;
 
 class ProductCreateAction
 {
-    public function __construct(private readonly ProductWriteRepositoryInterface $productWriteRepository)
-    {
+    public function __construct(
+        private readonly ProductWriteRepositoryInterface $productWriteRepository
+    ) {
     }
 
-    public function run(ProductCreateDto $dto)
+    public function run(ProductCreateDto $dto): Product
     {
-        $product = Product::createProduct($dto);
+        $product = Product::createProductData($dto);
+
         return $this->productWriteRepository->create($product);
     }
 }

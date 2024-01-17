@@ -2,24 +2,27 @@
 
 namespace App\Services\Product\Actions;
 
-use Illuminate\Http\Request;
+
+use App\Models\Product;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use App\Services\Product\Dto\ProductUpdateDto;
+use App\Repositories\Product\Read\ProductReadRepositoryInterface;
 use App\Repositories\Product\Write\ProductWriteRepositoryInterface;
 
 class ProductUpdateAction
 {
     public function __construct(
-        protected ProductWriteRepositoryInterface $repository,
-        protected Request $request
+        private readonly ProductWriteRepositoryInterface $productWriteRepository,
+        private readonly ProductReadRepositoryInterface $productReadRepository,
     ) {
     }
 
-    public function run(ProductUpdateDto $dto)
+    public function run(ProductUpdateDto $dto): array|Builder|Model
     {
-        $product_id = $this->request->route('product_id');
-        $id = (int) $product_id;
-        $product = $dto;
+        $product = $this->productReadRepository->getByIdAndUserId($dto->id, $dto->userId);
+        $dataToUpdate = Product::updateProductData($dto);
 
-        return $this->repository->update($product->toArray(), $id);
+        return $this->productWriteRepository->update($dataToUpdate, $product->id);
     }
 }

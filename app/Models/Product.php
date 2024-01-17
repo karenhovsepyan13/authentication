@@ -2,17 +2,18 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Model;
 use App\Services\Product\Dto\ProductCreateDto;
 use App\Services\Product\Dto\ProductUpdateDto;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Product extends Authenticatable
+/**
+ * @property int $id
+ */
+class Product extends Model
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasFactory;
 
     protected $fillable = [
         'user_id',
@@ -27,11 +28,10 @@ class Product extends Authenticatable
         return $this->belongsTo(User::class);
     }
 
-    public static function createProduct(ProductCreateDto $dto): array
+    public static function createProductData(ProductCreateDto $dto): array
     {
-        $user = auth()->user();
         return [
-            'user_id' => $user->id,
+            'user_id' => $dto->userId,
             'name' => $dto->name,
             'price' => $dto->price,
             'country' => $dto->country,
@@ -39,20 +39,15 @@ class Product extends Authenticatable
         ];
     }
 
-    public function updateProduct(ProductUpdateDto $dto): void
+    public static function updateProductData(ProductUpdateDto $dto): array
     {
-        $user = auth()->user();
-        $this->fill([
-            'user_id' => $user->id,
+        $data = [
             'name' => $dto->name,
             'price' => $dto->price,
             'country' => $dto->country,
-            'count' => $dto->count
-        ]);
-        $this->save();
-    }
+            'count' => $dto->count,
+        ];
 
-    public function users() {
-        return $this->belongsTo(User::class);
+        return array_filter($data);
     }
 }

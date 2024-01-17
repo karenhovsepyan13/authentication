@@ -1,11 +1,8 @@
 <?php
 
-use App\Http\Middleware\Authenticate;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Product\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,13 +15,15 @@ use App\Http\Controllers\RegisterController;
 |
 */
 
-Route::post('/register', [RegisterController::class, 'register']);
-Route::post('/login', [LoginController::class, 'login'])->name('login');
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:api')->group(function () {
-    Route::post('/create', [ProductController::class, 'createProduct']);
-    Route::patch('/update/{product_id}', [ProductController::class, 'updateProduct']);
-    Route::delete('/delete/{product_id}', [ProductController::class, 'deleteProduct']);
-    Route::get('/read', [ProductController::class, 'read']);
+    Route::prefix('products')->group(function () {
+        Route::post('/', [ProductController::class, 'create']);
+        Route::patch('/{id}', [ProductController::class, 'update']);
+        Route::delete('/{id}', [ProductController::class, 'delete']);
+        Route::get('/', [ProductController::class, 'index']);
+    });
 });
 

@@ -2,8 +2,8 @@
 
 namespace App\Services\Auth\Dto\UserDto;
 
-use App\Http\Requests\Auth\LoginRequest;
 use Spatie\LaravelData\Data;
+use App\Http\Requests\Auth\LoginRequest;
 
 class LoginDto extends Data
 {

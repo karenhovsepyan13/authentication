@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Requests\ProductRequest;
+namespace App\Http\Requests\Product;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProductUpdateRequest extends FormRequest
+class ProductCreateRequest extends FormRequest
 {
     public const NAME = 'name';
     public const PRICE = 'price';
@@ -25,7 +26,7 @@ class ProductUpdateRequest extends FormRequest
             ],
             self::PRICE => [
                 'required',
-                'int',
+                'integer'
             ],
             self::COUNTRY => [
                 'required',
@@ -33,7 +34,7 @@ class ProductUpdateRequest extends FormRequest
             ],
             self::COUNT => [
                 'required',
-                'int',
+                'integer',
             ],
         ];
     }
@@ -43,7 +44,7 @@ class ProductUpdateRequest extends FormRequest
         return $this->get(self::NAME);
     }
 
-    public function getPrice(): string
+    public function getPrice(): int
     {
         return $this->get(self::PRICE);
     }
@@ -53,8 +54,15 @@ class ProductUpdateRequest extends FormRequest
         return $this->get(self::COUNTRY);
     }
 
-    public function getCount(): string
+    public function getCount(): int
     {
         return $this->get(self::COUNT);
+    }
+
+    public function getUserId(): int
+    {
+        $user = Auth::user();
+
+        return $user->id;
     }
 }

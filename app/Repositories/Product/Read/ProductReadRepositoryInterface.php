@@ -2,10 +2,12 @@
 
 namespace App\Repositories\Product\Read;
 
-use App\Models\User;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Collection;
 
 interface ProductReadRepositoryInterface
 {
-    public function read($userId):Collection|array;
+    public function getByUserId($userId): Collection;
+
+    public function getByIdAndUserId(int $id, int $userId): Product;
 }

@@ -2,8 +2,8 @@
 
 namespace App\Services\Auth\Dto\UserDto;
 
-use App\Http\Requests\Auth\RegisterRequest;
 use Spatie\LaravelData\Data;
+use App\Http\Requests\Auth\RegisterRequest;
 
 class RegisterDto extends Data
 {

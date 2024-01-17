@@ -2,8 +2,8 @@
 
 namespace App\Repositories\User\Read;
 
-use App\Exceptions\UnauthorizedUser;
 use App\Models\User;
+use App\Exceptions\UnauthorizedUser;
 use Illuminate\Database\Eloquent\Builder;
 
 class UserReadRepository implements UserReadRepositoryInterface
@@ -17,9 +17,11 @@ class UserReadRepository implements UserReadRepositoryInterface
     {
         /**@var User $user */
         $user = $this->query()->where('email', $email)->first();
+
         if (!$user) {
             throw new UnauthorizedUser();
         }
+
         return $user;
     }
 }

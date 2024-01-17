@@ -3,24 +3,22 @@
 namespace App\Services\Auth\Actions\UserActions;
 
 use App\Exceptions\UnauthorizedUser;
-use App\Http\Resources\User\LoginResource;
-use App\Repositories\User\Read\UserReadRepository;
-use App\Services\Auth\Dto\UserDto\LoginDto;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Config;
+use App\Http\Resources\User\LoginResource;
+use App\Services\Auth\Dto\UserDto\LoginDto;
+use App\Repositories\User\Read\UserReadRepositoryInterface;
 
 class LoginAction
 {
     public function __construct(
-        private readonly UserReadRepository $readRepository,
+        private readonly UserReadRepositoryInterface $readRepository
     ) {
     }
 
     public function run(LoginDto $dto): LoginResource
     {
-//        $clientId = Config::get('passport.personal_access_client.id');
-//        $clientSecret = Config::get('passport.personal_access_client.secret');
         $clientId = Config::get('passport.personal_grant_client.id');
         $clientSecret = Config::get('passport.personal_grant_client.secret');
 
@@ -32,11 +30,12 @@ class LoginAction
             'password' => $dto->password,
             'scope' => '*',
         ]);
+
         $user = $this->readRepository->getByEmail((array)$dto->email);
-        if (!is_null($user) && Hash::check($dto->password, $user->password)) {
+
+        if (Hash::check($dto->password, $user->password)) {
             $responseData = [
                 'success' => true,
-                'message' => 'You have signed in successfully',
                 'token' => json_decode($result),
             ];
         } else {
