@@ -2,7 +2,7 @@
 
 namespace App\Services\Product\Actions;
 
-use App\Events\Product\ProductCreated;
+use App\Events\Product\ProductCreatedEvent;
 use App\Models\Product;
 use App\Repositories\Product\Write\ProductWriteRepositoryInterface;
 use App\Services\Product\Dto\ProductCreateDto;
@@ -19,7 +19,7 @@ class ProductCreateAction
         $product = Product::createProductData($dto);
         $createdProduct = $this->productWriteRepository->create($product);
 
-        ProductCreated::dispatch($createdProduct);
+        ProductCreatedEvent::dispatch($createdProduct);
 
         return $createdProduct;
     }
