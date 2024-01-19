@@ -10,12 +10,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-/* @property string $password */
+/* @property string $password
+ * @property string $name
+ * @property int $id
+ */
 class User extends Authenticatable
 {
-    use HasApiTokens;
-    use HasFactory;
     use Notifiable;
+    use HasFactory;
+    use HasApiTokens;
 
     public function products(): HasMany
     {

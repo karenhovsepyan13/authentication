@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * @property int $id
+ * @property string $name
+ * @property User $user
  */
 class Product extends Model
 {

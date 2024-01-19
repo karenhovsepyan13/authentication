@@ -17,7 +17,7 @@ class ProductUpdateDto extends Data
     public static function fromRequest(ProductUpdateRequest $request): ProductUpdateDto
     {
         return self::from([
-            'id' => $request->getProductId(),
+            'id' => $request->getId(),
             'userId' => $request->getUserId(),
             'name' => $request->getName(),
             'price' => $request->getPrice(),

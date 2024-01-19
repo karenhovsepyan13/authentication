@@ -47,7 +47,10 @@ class ProductController extends Controller
         $dto = productDeleteDto::fromRequest($request);
         $productDeleteAction->run($dto);
 
-        return new JsonResponse(['success' => true]);
+        return new JsonResponse([
+            'success' => true,
+            'message' => 'Product deleted successfully'
+        ]);
     }
 
     public function index(

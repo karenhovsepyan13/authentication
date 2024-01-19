@@ -8,8 +8,9 @@ use App\Repositories\User\Write\UserWriteRepositoryInterface;
 
 class RegisterAction
 {
-    public function __construct(private readonly UserWriteRepositoryInterface $userWriteRepository)
-    {
+    public function __construct(
+        private readonly UserWriteRepositoryInterface $userWriteRepository
+    ) {
     }
 
     public function run(RegisterDto $dto): User

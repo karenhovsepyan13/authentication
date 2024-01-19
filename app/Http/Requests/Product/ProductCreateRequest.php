@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Product;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ProductCreateRequest extends FormRequest
@@ -61,8 +60,6 @@ class ProductCreateRequest extends FormRequest
 
     public function getUserId(): int
     {
-        $user = Auth::user();
-
-        return $user->id;
+        return $this->user()->id;
     }
 }

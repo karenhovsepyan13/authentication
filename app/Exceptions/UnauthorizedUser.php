@@ -2,9 +2,8 @@
 
 namespace App\Exceptions;
 
-use Illuminate\Http\Response;
 use Illuminate\Http\Exceptions\HttpResponseException;
-
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class UnauthorizedUser extends HttpResponseException
 {
@@ -12,6 +11,6 @@ class UnauthorizedUser extends HttpResponseException
     {
         parent::__construct(response()->json([
             'message' => 'Wrong email or password',
-        ], Response::HTTP_UNAUTHORIZED));
+        ], ResponseAlias::HTTP_UNAUTHORIZED));
     }
 }

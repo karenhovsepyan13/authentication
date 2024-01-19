@@ -2,10 +2,8 @@
 
 namespace App\Services\Product\Actions;
 
-use App\Models\Product;
-use App\Exceptions\ProductNotFoundException;
-use App\Repositories\Product\Read\ProductReadRepositoryInterface;
 use App\Services\Product\Dto\ProductDeleteDto;
+use App\Repositories\Product\Read\ProductReadRepositoryInterface;
 use App\Repositories\Product\Write\ProductWriteRepositoryInterface;
 
 class ProductDeleteAction

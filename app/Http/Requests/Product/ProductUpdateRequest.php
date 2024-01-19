@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Product;
 
-use Illuminate\Support\Facades\Auth;
+use App\Models\Product;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ProductUpdateRequest extends FormRequest
@@ -12,9 +12,12 @@ class ProductUpdateRequest extends FormRequest
     public const COUNTRY = 'country';
     public const COUNT = 'count';
 
-    public function authorize(): bool
+
+    public function authorize()
     {
-        return true;
+        $productId = $this->getId();
+
+        return $this->user()->can('update', [Product::class, $productId]);
     }
 
     public function rules(): array
@@ -59,15 +62,13 @@ class ProductUpdateRequest extends FormRequest
         return $this->get(self::COUNT);
     }
 
-    public function getProductId(): int
+    public function getId(): int
     {
         return $this->route('id');
     }
 
     public function getUserId(): int
     {
-        $user = Auth::user();
-
-        return $user->id;
+        return $this->user()->id;
     }
 }

@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 class ProductReadRepository implements ProductReadRepositoryInterface
 {
+
     public function getByUserId($userId): Collection
     {
         $products = $this->query()
